@@ -25,7 +25,7 @@
             @if(Auth::user()->role === 'admin')
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
                     <div class="p-6">
-                        <div class="flex space-x-4">
+                        <div class="flex flex-wrap gap-2">
                             <a href="{{ route('properties.index') }}" class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">
                                 Toutes ({{ $properties->total() }})
                             </a>
@@ -37,6 +37,12 @@
                             </a>
                             <a href="{{ route('properties.index', ['status' => 'rejetee']) }}" class="px-4 py-2 bg-red-200 rounded-lg hover:bg-red-300">
                                 Rejetées
+                            </a>
+                            <a href="{{ route('properties.index', ['status' => 'vendue']) }}" class="px-4 py-2 bg-purple-200 rounded-lg hover:bg-purple-300">
+                                Vendues
+                            </a>
+                            <a href="{{ route('properties.index', ['status' => 'louee']) }}" class="px-4 py-2 bg-blue-200 rounded-lg hover:bg-blue-300">
+                                Louées
                             </a>
                         </div>
                     </div>
@@ -61,19 +67,15 @@
                             
                             <!-- Badge statut -->
                             <div class="absolute top-2 left-2">
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-                                    @if($property->status == 'validee') bg-green-100 text-green-800
-                                    @elseif($property->status == 'en_attente') bg-yellow-100 text-yellow-800
-                                    @elseif($property->status == 'rejetee') bg-red-100 text-red-800
-                                    @else bg-gray-100 text-gray-800 @endif">
-                                    {{ ucfirst($property->status) }}
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $property->status_color }}">
+                                    {{ $property->status_label }}
                                 </span>
                             </div>
 
                             <!-- Badge type -->
                             <div class="absolute top-2 right-2">
                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                                    {{ ucfirst($property->type) }}
+                                    {{ $property->type_display }}
                                 </span>
                             </div>
                         </div>
@@ -116,7 +118,7 @@
                                     Voir détails
                                 </a>
 
-                                <div class="flex space-x-2">
+                                <div class="flex flex-wrap gap-1">
                                     @if(Auth::user()->role === 'admin')
                                         @if($property->status == 'en_attente')
                                             <form method="POST" action="{{ route('properties.validate', $property) }}" class="inline">
@@ -129,6 +131,35 @@
                                             <button onclick="openRejectModal({{ $property->id }})" class="bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded text-xs">
                                                 Rejeter
                                             </button>
+                                        @elseif($property->isUnavailable())
+                                            <form method="POST" action="{{ route('properties.reactivate', $property) }}" class="inline">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded text-xs">
+                                                    Remettre en ligne
+                                                </button>
+                                            </form>
+                                        @endif
+                                    @endif
+
+                                    <!-- Boutons pour marquer comme vendu/loué -->
+                                    @if(($property->user_id == Auth::id() || Auth::user()->role === 'admin') && $property->isAvailable())
+                                        @if($property->type === 'vente')
+                                            <form method="POST" action="{{ route('properties.mark-as-sold', $property) }}" class="inline" onsubmit="return confirm('Marquer cette propriété comme vendue ?')">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button type="submit" class="bg-purple-600 hover:bg-purple-700 text-white px-2 py-1 rounded text-xs">
+                                                    Vendu
+                                                </button>
+                                            </form>
+                                        @elseif($property->type === 'location')
+                                            <form method="POST" action="{{ route('properties.mark-as-rented', $property) }}" class="inline" onsubmit="return confirm('Marquer cette propriété comme louée ?')">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded text-xs">
+                                                    Loué
+                                                </button>
+                                            </form>
                                         @endif
                                     @endif
 

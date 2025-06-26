@@ -13,6 +13,28 @@
                     </svg>
                     PDF
                 </a>
+
+                <!-- Boutons pour marquer comme vendu/loué -->
+                @if(($property->user_id == Auth::id() || Auth::user()->role === 'admin') && $property->isAvailable())
+                    @if($property->type === 'vente')
+                        <form method="POST" action="{{ route('properties.mark-as-sold', $property) }}" class="inline" onsubmit="return confirm('Marquer cette propriété comme vendue ?')">
+                            @csrf
+                            @method('PATCH')
+                            <button type="submit" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded">
+                                ✅ Marquer comme vendue
+                            </button>
+                        </form>
+                    @elseif($property->type === 'location')
+                        <form method="POST" action="{{ route('properties.mark-as-rented', $property) }}" class="inline" onsubmit="return confirm('Marquer cette propriété comme louée ?')">
+                            @csrf
+                            @method('PATCH')
+                            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
+                                ✅ Marquer comme louée
+                            </button>
+                        </form>
+                    @endif
+                @endif
+
                 @if($property->user_id == Auth::id() || Auth::user()->role === 'admin')
                     <a href="{{ route('properties.edit', $property) }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
                         Modifier
@@ -63,6 +85,44 @@
                 <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
                     <h3 class="text-lg font-medium text-red-800 mb-2">Annonce rejetée</h3>
                     <p class="text-sm text-red-600">{{ $property->admin_comment }}</p>
+                </div>
+            @endif
+
+            <!-- Statut vendue/louée -->
+            @if($property->isUnavailable())
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                @if($property->isSold())
+                                    <svg class="h-5 w-5 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                    </svg>
+                                @else
+                                    <svg class="h-5 w-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                    </svg>
+                                @endif
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="text-lg font-medium text-blue-800">
+                                    {{ $property->status_label }}
+                                </h3>
+                                <p class="text-sm text-blue-600">
+                                    Cette propriété n'est plus disponible.
+                                </p>
+                            </div>
+                        </div>
+                        @if(Auth::user()->role === 'admin')
+                            <form method="POST" action="{{ route('properties.reactivate', $property) }}" class="inline">
+                                @csrf
+                                @method('PATCH')
+                                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded text-sm">
+                                    Remettre en ligne
+                                </button>
+                            </form>
+                        @endif
+                    </div>
                 </div>
             @endif
 

@@ -1,47 +1,304 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap");
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Importation des polices élégantes */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap");
 
-/* Simple and minimal custom styles for performance */
-@layer components {
-    .text-gradient {
-        background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
-
-    .gradient-bg {
-        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-    }
-
-    .card-hover {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .card-hover:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-    }
-
-    .image-hover {
-        transition: transform 0.5s ease;
-    }
-
-    .image-hover:hover {
-        transform: scale(1.05);
-    }
-
-    /* Smooth scroll behavior */
+@layer base {
     html {
         scroll-behavior: smooth;
     }
 
-    /* Better font rendering */
     body {
+        font-family: "Inter", sans-serif;
+        line-height: 1.6;
+        color: #374151;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Variables CSS pour le design système */
+    :root {
+        --font-sans: "Inter", sans-serif;
+        --font-serif: "Playfair Display", serif;
+        --color-primary: #111827;
+        --color-secondary: #6b7280;
+        --color-accent: #f3f4f6;
+        --spacing-unit: 1rem;
+    }
+}
+
+@layer components {
+    /* Classe pour le texte avec espacement des lettres élégant */
+    .letter-spacing-wider {
+        letter-spacing: 0.15em;
+    }
+
+    .letter-spacing-widest {
+        letter-spacing: 0.25em;
+    }
+
+    /* Classes pour les titres sophistiqués */
+    .title-primary {
+        font-family: var(--font-serif);
+        font-weight: 300;
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+    }
+
+    .title-secondary {
+        font-family: var(--font-sans);
+        font-weight: 200;
+        line-height: 1.2;
+        letter-spacing: 0.05em;
+    }
+
+    /* Styles pour les formulaires minimalistes */
+    .form-input-minimal {
+        @apply w-full px-0 py-4 text-gray-900 placeholder-gray-400 bg-transparent border-0 border-b border-gray-200 focus:border-gray-900 focus:ring-0 transition-colors duration-300;
+    }
+
+    /* Animations subtiles */
+    .fade-in-up {
+        animation: fadeInUp 0.6s ease-out forwards;
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    .fade-in-up-delay-1 {
+        animation: fadeInUp 0.6s ease-out 0.2s forwards;
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    .fade-in-up-delay-2 {
+        animation: fadeInUp 0.6s ease-out 0.4s forwards;
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    /* Effet de parallax subtil */
+    .parallax-element {
+        transform: translateY(var(--parallax-offset, 0));
+        transition: transform 0.1s ease-out;
+    }
+
+    /* Séparateurs élégants */
+    .elegant-divider {
+        @apply w-24 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent;
+    }
+
+    .elegant-divider-center {
+        @apply w-12 h-px bg-gray-300 mx-auto;
+    }
+
+    /* Styles pour les liens sophistiqués */
+    .link-elegant {
+        @apply text-sm font-light tracking-wide uppercase text-gray-900 border-b border-gray-300 pb-1 transition-all duration-300 hover:border-gray-900;
+    }
+
+    /* Grille responsive élégante */
+    .grid-elegant {
+        display: grid;
+        gap: 2rem;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+
+    /* Cartes avec ombre subtile */
+    .card-elegant {
+        @apply bg-white rounded-none shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100;
+    }
+
+    /* Boutons minimalistes */
+    .btn-minimal {
+        @apply inline-flex items-center px-6 py-3 text-sm font-light tracking-wide text-white uppercase bg-gray-900 transition-all duration-300 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2;
+    }
+
+    .btn-outline-minimal {
+        @apply inline-flex items-center px-6 py-3 text-sm font-light tracking-wide text-gray-900 uppercase border border-gray-300 transition-all duration-300 hover:border-gray-900 focus:outline-none;
+    }
+}
+
+@layer utilities {
+    /* Classes utilitaires pour le spacing précis */
+    .space-y-12 > :not([hidden]) ~ :not([hidden]) {
+        margin-top: 3rem;
+    }
+
+    .space-y-16 > :not([hidden]) ~ :not([hidden]) {
+        margin-top: 4rem;
+    }
+
+    .space-y-20 > :not([hidden]) ~ :not([hidden]) {
+        margin-top: 5rem;
+    }
+
+    /* Classes pour les aspects ratios élégants */
+    .aspect-golden {
+        aspect-ratio: 1.618 / 1;
+    }
+
+    .aspect-magazine {
+        aspect-ratio: 4 / 5;
+    }
+
+    .aspect-landscape {
+        aspect-ratio: 16 / 9;
+    }
+
+    /* Classes pour les gradients subtils */
+    .gradient-fade-top {
+        background: linear-gradient(to top, transparent, rgba(0, 0, 0, 0.1));
+    }
+
+    .gradient-fade-bottom {
+        background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.1));
+    }
+
+    /* Classes pour les ombres sophistiquées */
+    .shadow-elegant {
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05),
+            0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    }
+
+    .shadow-elegant-lg {
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05),
+            0 4px 6px -2px rgba(0, 0, 0, 0.03);
+    }
+
+    /* Classes pour les bordures subtiles */
+    .border-elegant {
+        border: 1px solid rgba(229, 231, 235, 0.8);
+    }
+
+    /* Classes pour la typographie raffinée */
+    .text-elegant {
+        line-height: 1.7;
+        letter-spacing: 0.025em;
+    }
+
+    .text-elegant-sm {
+        font-size: 0.875rem;
+        line-height: 1.6;
+        letter-spacing: 0.05em;
+    }
+
+    /* Classes pour les transitions fluides */
+    .transition-elegant {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .transition-elegant-slow {
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Styles pour le scroll smooth */
+    .scroll-smooth {
+        scroll-behavior: smooth;
+    }
+
+    /* Classes pour les overlay subtils */
+    .overlay-subtle {
+        background: rgba(0, 0, 0, 0.02);
+    }
+
+    .overlay-subtle-dark {
+        background: rgba(0, 0, 0, 0.05);
+    }
+}
+
+/* Animations personnalisées */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes scaleInCenter {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Styles pour les states de focus améliorés */
+*:focus {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(107, 114, 128, 0.1);
+}
+
+/* Optimisation pour les écrans haute densité */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .card-elegant {
+        border-width: 0.5px;
+    }
+}
+
+/* Styles spéciaux pour l'impression */
+@media print {
+    .no-print {
+        display: none !important;
+    }
+
+    body {
+        color: #000;
+        background: #fff;
+    }
+
+    .shadow-elegant,
+    .shadow-elegant-lg {
+        box-shadow: none;
+    }
+}
+
+/* Améliorations pour l'accessibilité */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* Styles pour le mode sombre (optionnel) */
+@media (prefers-color-scheme: dark) {
+    .dark-mode-auto {
+        background-color: #111827;
+        color: #f9fafb;
+    }
+
+    .dark-mode-auto .card-elegant {
+        background-color: #1f2937;
+        border-color: #374151;
     }
 }

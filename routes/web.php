@@ -64,7 +64,12 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:admin')->group(function () {
         Route::patch('/properties/{property}/validate', [PropertyController::class, 'validate'])->name('properties.validate');
         Route::patch('/properties/{property}/reject', [PropertyController::class, 'reject'])->name('properties.reject');
+        Route::patch('/properties/{property}/reactivate', [PropertyController::class, 'reactivate'])->name('properties.reactivate');
     });
+    
+    // Routes pour marquer les propriétés comme vendues/louées
+    Route::patch('/properties/{property}/mark-as-rented', [PropertyController::class, 'markAsRented'])->name('properties.mark-as-rented');
+    Route::patch('/properties/{property}/mark-as-sold', [PropertyController::class, 'markAsSold'])->name('properties.mark-as-sold');
     
     // Routes des demandes de service
     Route::resource('service-requests', ServiceRequestController::class);
