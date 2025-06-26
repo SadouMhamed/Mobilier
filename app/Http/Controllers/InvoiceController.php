@@ -118,7 +118,7 @@ class InvoiceController extends Controller
             'discount_amount' => $discountAmount,
             'total_amount' => $totalAmount,
             'admin_notes' => $validated['admin_notes'],
-            'due_date' => now()->addDays($validated['due_days']),
+            'due_date' => now()->addDays((int) $validated['due_days']),
             'status' => 'draft',
         ]);
 
@@ -260,7 +260,7 @@ class InvoiceController extends Controller
             'discount_amount' => $discountAmount,
             'total_amount' => $totalAmount,
             'admin_notes' => $validated['admin_notes'],
-            'due_date' => now()->addDays($validated['due_days']),
+            'due_date' => now()->addDays((int) $validated['due_days']),
         ]);
 
         return redirect()->route('invoices.show', $invoice)

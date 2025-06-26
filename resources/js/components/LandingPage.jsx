@@ -5,11 +5,14 @@ import {
     EnvelopeIcon,
     MapPinIcon,
     PlusIcon,
+    Bars3Icon,
+    XMarkIcon,
 } from "@heroicons/react/24/outline";
 
-// Header Component - Design minimaliste
+// Header Component - Design minimaliste avec menu mobile
 const Header = () => {
     const [isScrolled, setIsScrolled] = useState(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -18,6 +21,11 @@ const Header = () => {
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
+
+    // Fermer le menu mobile quand on clique sur un lien
+    const handleMobileMenuClick = () => {
+        setIsMobileMenuOpen(false);
+    };
 
     return (
         <header
@@ -37,11 +45,11 @@ const Header = () => {
                         </span>
                     </div>
 
-                    {/* Navigation épurée */}
+                    {/* Navigation épurée - Desktop */}
                     <nav className="hidden items-center space-x-12 md:flex">
                         <a
                             href="#collection"
-                            className="text-sm font-light tracking-wide text-gray-700 uppercase transition-colors hover:text-gray-900 letter-spacing-wider"
+                            className="text-sm font-light tracking-wide text-gray-700 uppercase transition-colors hover:text-gray-900"
                         >
                             Collection
                         </a>
@@ -59,8 +67,8 @@ const Header = () => {
                         </a>
                     </nav>
 
-                    {/* CTA minimaliste */}
-                    <div className="flex items-center space-x-6">
+                    {/* CTA minimaliste - Desktop */}
+                    <div className="hidden md:flex items-center space-x-6">
                         <a
                             href="/login"
                             className="text-sm font-light text-gray-700 uppercase tracking-wide transition-colors hover:text-gray-900"
@@ -74,7 +82,67 @@ const Header = () => {
                             S'inscrire
                         </a>
                     </div>
+
+                    {/* Menu hamburger - Mobile */}
+                    <button
+                        className="md:hidden p-2 text-gray-700 hover:text-gray-900 transition-colors"
+                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                        aria-label="Toggle menu"
+                    >
+                        {isMobileMenuOpen ? (
+                            <XMarkIcon className="w-6 h-6" />
+                        ) : (
+                            <Bars3Icon className="w-6 h-6" />
+                        )}
+                    </button>
                 </div>
+
+                {/* Menu mobile déroulant */}
+                {isMobileMenuOpen && (
+                    <div className="md:hidden border-t border-gray-100 bg-white/95 backdrop-blur-lg">
+                        <nav className="px-6 py-8 space-y-6">
+                            <a
+                                href="#collection"
+                                onClick={handleMobileMenuClick}
+                                className="block text-lg font-light tracking-wide text-gray-700 uppercase transition-colors hover:text-gray-900"
+                            >
+                                Collection
+                            </a>
+                            <a
+                                href="#services"
+                                onClick={handleMobileMenuClick}
+                                className="block text-lg font-light tracking-wide text-gray-700 uppercase transition-colors hover:text-gray-900"
+                            >
+                                Services
+                            </a>
+                            <a
+                                href="#contact"
+                                onClick={handleMobileMenuClick}
+                                className="block text-lg font-light tracking-wide text-gray-700 uppercase transition-colors hover:text-gray-900"
+                            >
+                                Contact
+                            </a>
+
+                            {/* Séparateur */}
+                            <div className="border-t border-gray-200 pt-6 space-y-4">
+                                <a
+                                    href="/login"
+                                    onClick={handleMobileMenuClick}
+                                    className="block text-sm font-light text-gray-700 uppercase tracking-wide transition-colors hover:text-gray-900"
+                                >
+                                    Connexion
+                                </a>
+                                <a
+                                    href="/register"
+                                    onClick={handleMobileMenuClick}
+                                    className="block w-full px-6 py-3 text-sm font-light tracking-wide text-white text-center uppercase bg-gray-900 transition-all duration-300 hover:bg-gray-800"
+                                >
+                                    S'inscrire
+                                </a>
+                            </div>
+                        </nav>
+                    </div>
+                )}
             </div>
         </header>
     );

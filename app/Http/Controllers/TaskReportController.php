@@ -20,9 +20,9 @@ class TaskReportController extends Controller
             abort(403, 'Vous n\'êtes pas autorisé à ajouter un rapport pour cette demande.');
         }
 
-        // Vérifier que la demande est terminée
-        if ($serviceRequest->status !== 'terminee') {
-            return redirect()->back()->with('error', 'Vous ne pouvez ajouter un rapport que pour une demande terminée.');
+        // Vérifier que la demande est en cours ou terminée (pas en attente ou assignée)
+        if (!in_array($serviceRequest->status, ['en_cours', 'terminee'])) {
+            return redirect()->back()->with('error', 'Vous ne pouvez ajouter un rapport que pour une demande en cours ou terminée.');
         }
 
         return view('task-reports.create', compact('serviceRequest'));

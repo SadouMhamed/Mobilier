@@ -62,12 +62,15 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                             <!-- Durée -->
                             <div>
-                                <x-input-label for="duration_hours" value="Durée d'intervention (heures)" />
-                                <x-text-input id="duration_hours" name="duration_hours" type="number" 
-                                    class="mt-1 block w-full" :value="old('duration_hours')" 
-                                    min="0.5" max="24" step="0.5" required 
-                                    placeholder="Ex: 2.5" />
-                                <x-input-error class="mt-2" :messages="$errors->get('duration_hours')" />
+                                <x-input-label for="duration_minutes" value="Durée d'intervention (minutes)" />
+                                <x-text-input id="duration_minutes" name="duration_minutes" type="number" 
+                                    class="mt-1 block w-full" :value="old('duration_minutes')" 
+                                    min="15" max="1440" step="15" 
+                                    placeholder="Ex: 120 pour 2h" />
+                                <x-input-error class="mt-2" :messages="$errors->get('duration_minutes')" />
+                                <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                                    Durée en minutes (ex: 120 pour 2 heures)
+                                </p>
                             </div>
 
                             <!-- Coût matériaux -->
@@ -84,36 +87,46 @@
                             </div>
                         </div>
 
+                        <!-- Matériaux utilisés -->
+                        <div class="mb-6">
+                            <x-input-label for="materials_used" value="Matériaux utilisés (optionnel)" />
+                            <textarea id="materials_used" name="materials_used" 
+                                class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" 
+                                rows="3" maxlength="1000" 
+                                placeholder="Liste des matériaux et pièces utilisés...">{{ old('materials_used') }}</textarea>
+                            <x-input-error class="mt-2" :messages="$errors->get('materials_used')" />
+                        </div>
+
                         <!-- Niveau de difficulté -->
                         <div class="mb-6">
-                            <x-input-label for="difficulty_level" value="Niveau de difficulté" />
-                            <select id="difficulty_level" name="difficulty_level" 
+                            <x-input-label for="difficulty" value="Niveau de difficulté" />
+                            <select id="difficulty" name="difficulty" 
                                 class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" 
                                 required>
                                 <option value="">Sélectionner un niveau</option>
-                                <option value="facile" {{ old('difficulty_level') == 'facile' ? 'selected' : '' }}>
+                                <option value="facile" {{ old('difficulty') == 'facile' ? 'selected' : '' }}>
                                     Facile - Intervention simple
                                 </option>
-                                <option value="moyen" {{ old('difficulty_level') == 'moyen' ? 'selected' : '' }}>
-                                    Moyen - Intervention standard
+                                <option value="normale" {{ old('difficulty') == 'normale' ? 'selected' : '' }}>
+                                    Normale - Intervention standard
                                 </option>
-                                <option value="difficile" {{ old('difficulty_level') == 'difficile' ? 'selected' : '' }}>
+                                <option value="difficile" {{ old('difficulty') == 'difficile' ? 'selected' : '' }}>
                                     Difficile - Intervention complexe
                                 </option>
-                                <option value="tres_difficile" {{ old('difficulty_level') == 'tres_difficile' ? 'selected' : '' }}>
-                                    Très difficile - Intervention exceptionnelle
+                                <option value="complexe" {{ old('difficulty') == 'complexe' ? 'selected' : '' }}>
+                                    Complexe - Intervention exceptionnelle
                                 </option>
                             </select>
-                            <x-input-error class="mt-2" :messages="$errors->get('difficulty_level')" />
+                            <x-input-error class="mt-2" :messages="$errors->get('difficulty')" />
                         </div>
 
                         <!-- Photos avant -->
                         <div class="mb-6">
-                            <x-input-label for="photos_before" value="Photos avant intervention (optionnel)" />
-                            <input id="photos_before" name="photos_before[]" type="file" 
+                            <x-input-label for="before_photos" value="Photos avant intervention (optionnel)" />
+                            <input id="before_photos" name="before_photos[]" type="file" 
                                 class="mt-1 block w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" 
                                 accept="image/*" multiple />
-                            <x-input-error class="mt-2" :messages="$errors->get('photos_before')" />
+                            <x-input-error class="mt-2" :messages="$errors->get('before_photos')" />
                             <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
                                 Formats acceptés : JPG, PNG, GIF. Taille max : 2MB par photo.
                             </p>
@@ -121,11 +134,11 @@
 
                         <!-- Photos après -->
                         <div class="mb-6">
-                            <x-input-label for="photos_after" value="Photos après intervention (optionnel)" />
-                            <input id="photos_after" name="photos_after[]" type="file" 
+                            <x-input-label for="after_photos" value="Photos après intervention (optionnel)" />
+                            <input id="after_photos" name="after_photos[]" type="file" 
                                 class="mt-1 block w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" 
                                 accept="image/*" multiple />
-                            <x-input-error class="mt-2" :messages="$errors->get('photos_after')" />
+                            <x-input-error class="mt-2" :messages="$errors->get('after_photos')" />
                             <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
                                 Formats acceptés : JPG, PNG, GIF. Taille max : 2MB par photo.
                             </p>
