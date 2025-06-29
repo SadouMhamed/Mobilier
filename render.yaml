@@ -13,7 +13,7 @@ services:
       rm -rf public/build
 
       # Build frontend assets (React + Tailwind)
-      npm run build
+      ASSET_URL=https://$RENDER_EXTERNAL_HOSTNAME npm run build
 
       # Generate application key if not set
       php artisan key:generate --force
@@ -77,6 +77,8 @@ services:
         value: log
       - key: VITE_APP_NAME
         value: "Mobilier App"
+      - key: FORCE_HTTPS
+        value: true
       - key: SUPABASE_URL
         value: https://fzenqbtkhhowekutajen.supabase.co
       - key: SUPABASE_ANON_KEY

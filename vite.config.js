@@ -42,6 +42,7 @@ export default defineConfig({
                 entryFileNames: "assets/js/[name]-[hash].js",
             },
         },
+        manifest: true,
     },
     define: {
         // Ensure HTTPS is used in production
