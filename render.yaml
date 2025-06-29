@@ -10,8 +10,12 @@ services:
       # Clear any existing build files
       rm -rf public/build
 
-      # Build frontend assets
-      npm run build
+      # Build frontend assets with verbose output
+      NODE_ENV=production npm run build
+
+      # Verify build files were created
+      ls -la public/build/
+      [ -f public/build/manifest.json ] && echo "✅ Vite manifest created" || echo "❌ Vite manifest missing"
 
       # Set proper permissions
       chmod -R 755 public/build
@@ -55,6 +59,19 @@ services:
         value: info
       - key: DB_CONNECTION
         value: pgsql
+      - key: DB_HOST
+        value: db.fzenqbtkhhowekutajen.supabase.co
+      - key: DB_PORT
+        value: 5432
+      - key: DB_DATABASE
+        value: postgres
+      - key: DB_USERNAME
+        value: postgres
+      # DB_PASSWORD needs to be set manually in Render dashboard
+      # - key: DB_PASSWORD
+      #   value: YOUR_SUPABASE_DB_PASSWORD
+      - key: APP_KEY
+        value: base64:etnxLIDiqysgXpnnCtZvVFsIQfWUxaigZWAliqJG+Qw=
       - key: CACHE_DRIVER
         value: file
       - key: FILESYSTEM_DISK
