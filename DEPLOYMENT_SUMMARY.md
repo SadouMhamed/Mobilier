@@ -78,8 +78,13 @@ You'll need these from your Supabase dashboard:
 
 -   `DB_HOST` - Your Supabase database host
 -   `DB_PASSWORD` - Your Supabase database password
+-   `SUPABASE_URL` - Your project URL (Settings → API)
+-   `SUPABASE_ANON_KEY` - Public API key (Settings → API)
+-   `SUPABASE_SERVICE_ROLE_KEY` - Admin API key (Settings → API)
 
 Everything else is provided in the deployment files.
+
+**📖 See `SUPABASE_KEYS_GUIDE.md` for detailed instructions on finding these keys.**
 
 ## 🎊 **What You'll Get**
 

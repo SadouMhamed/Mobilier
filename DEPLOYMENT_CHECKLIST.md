@@ -35,6 +35,15 @@ QUEUE_CONNECTION=sync
 BROADCAST_DRIVER=log
 FILESYSTEM_DISK=local
 VITE_APP_NAME=Mobilier App
+
+# Supabase API Keys (for client-side features)
+SUPABASE_URL=https://your-project-ref.supabase.co
+SUPABASE_ANON_KEY=your-supabase-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key
+
+# Vite variables (for React to access Supabase)
+VITE_SUPABASE_URL=https://your-project-ref.supabase.co
+VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
 ```
 
 ### 3. Supabase Information Needed

@@ -67,8 +67,13 @@ services:
         value: log
       - key: VITE_APP_NAME
         value: "Mobilier App"
-
-databases:
-  - name: mobilier-db
-    databaseName: mobilier
-    user: mobilier_user
+      - key: SUPABASE_URL
+        value: https://fzenqbtkhhowekutajen.supabase.co
+      - key: SUPABASE_ANON_KEY
+        value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ6ZW5xYnRraGhvd2VrdXRhamVuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTEyMzI3MTcsImV4cCI6MjA2NjgwODcxN30.Fm2SHsuvMhpT9mPwqSfVR4zZExQGe9uOHQyKfQAJ_w4
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ6ZW5xYnRraGhvd2VrdXRhamVuIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1MTIzMjcxNywiZXhwIjoyMDY2ODA4NzE3fQ.bxiq2qY3Mt07TWUbyNl3MoXyVWoI0l_erwVYUYdeC6g
+      - key: VITE_SUPABASE_URL
+        value: https://fzenqbtkhhowekutajen.supabase.co
+      - key: VITE_SUPABASE_ANON_KEY
+        value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ6ZW5xYnRraGhvd2VrdXRhamVuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTEyMzI3MTcsImV4cCI6MjA2NjgwODcxN30.Fm2SHsuvMhpT9mPwqSfVR4zZExQGe9uOHQyKfQAJ_w4
