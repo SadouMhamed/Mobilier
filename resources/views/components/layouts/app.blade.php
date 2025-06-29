@@ -12,7 +12,13 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
         <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.jsx', 'resources/js/app-laravel.js'])
+        @if(app()->environment('local') || (app()->environment('production') && file_exists(public_path('build/manifest.json'))))
+            @vite(['resources/css/app.css', 'resources/js/app.jsx', 'resources/js/app-laravel.js'])
+        @else
+            <!-- Fallback CSS for production if Vite manifest is missing -->
+            <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.0/tailwind.min.css" rel="stylesheet">
+            <script>console.warn('Vite manifest not found, using fallback CSS');</script>
+        @endif
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
