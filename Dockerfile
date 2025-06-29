@@ -39,6 +39,9 @@ RUN composer install --optimize-autoloader --no-dev
 RUN npm install
 RUN npm run build
 
+# Create .env file from example (needed for artisan commands)
+RUN cp .env.example .env
+
 # Generate application key
 RUN php artisan key:generate
 
