@@ -3,56 +3,31 @@ services:
     name: mobilier-app
     env: php
     buildCommand: |
-      # Install PHP dependencies
+      # Install dependencies
       composer install --optimize-autoloader --no-dev
+      npm ci
 
-      # Install Node.js dependencies
-      npm install
-
-      # Clean existing build files
+      # Clear any existing build files
       rm -rf public/build
 
-      # Create build directory with proper permissions
-      mkdir -p public/build
+      # Build frontend assets
+      npm run build
+
+      # Set proper permissions
       chmod -R 755 public/build
 
-      # Build frontend assets (React + Tailwind)
-      ASSET_URL=https://$RENDER_EXTERNAL_HOSTNAME npm run build
-
-      # Ensure build files are accessible
-      chmod -R 755 public/build
-
-      # Generate application key if not set
+      # Generate key and optimize
       php artisan key:generate --force
+      php artisan optimize:clear
+      php artisan optimize
 
-      # Clear all caches first
-      php artisan cache:clear
-      php artisan config:clear
-      php artisan route:clear
-      php artisan view:clear
-
-      # Cache configuration for better performance
-      php artisan config:cache
-      php artisan route:cache
-      php artisan view:cache
-
-      # Run database migrations
+      # Run migrations
       php artisan migrate --force
 
-      # Seed database if needed (optional - remove if not needed in production)
-      php artisan db:seed --force
-
-      # Create storage link for file uploads
+      # Create storage link
       php artisan storage:link
 
-      # Verify manifest exists
-      if [ ! -f "public/build/manifest.json" ]; then
-        echo "Error: manifest.json not found!"
-        exit 1
-      fi
-
     startCommand: |
-      # Start the PHP server
       php artisan serve --host=0.0.0.0 --port=$PORT
 
     plan: starter
@@ -63,7 +38,7 @@ services:
       - key: APP_ENV
         value: production
       - key: APP_DEBUG
-        value: true
+        value: false
       - key: APP_URL
         fromService:
           type: web
