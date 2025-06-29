@@ -10,6 +10,7 @@ export default defineConfig({
                 "resources/js/app-laravel.js",
             ],
             refresh: true,
+            buildDirectory: "build",
         }),
     ],
     esbuild: {
@@ -25,6 +26,8 @@ export default defineConfig({
     },
     build: {
         // Ensure assets are built with proper URLs
+        manifest: true,
+        outDir: "public/build",
         rollupOptions: {
             output: {
                 assetFileNames: (assetInfo) => {
@@ -42,7 +45,6 @@ export default defineConfig({
                 entryFileNames: "assets/js/[name]-[hash].js",
             },
         },
-        manifest: true,
     },
     define: {
         // Ensure HTTPS is used in production
