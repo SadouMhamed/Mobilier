@@ -68,8 +68,8 @@ services:
       - key: DB_USERNAME
         value: postgres
       # DB_PASSWORD needs to be set manually in Render dashboard
-      # - key: DB_PASSWORD
-      #   value: YOUR_SUPABASE_DB_PASSWORD
+      - key: DB_PASSWORD
+       value: Wa2020lid
       - key: APP_KEY
         value: base64:etnxLIDiqysgXpnnCtZvVFsIQfWUxaigZWAliqJG+Qw=
       - key: CACHE_DRIVER
