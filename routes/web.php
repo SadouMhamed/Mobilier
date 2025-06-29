@@ -13,10 +13,29 @@ use App\Http\Controllers\TaskReportController;
 use App\Http\Controllers\InvoiceController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 // Test route to check if basic routing works
 Route::get('/test', function () {
     return response()->json(['status' => 'ok', 'message' => 'Basic routing works']);
+});
+
+// Database connection test route
+Route::get('/db-test', function () {
+    try {
+        DB::connection()->getPdo();
+        $userCount = DB::table('users')->count();
+        return response()->json([
+            'status' => 'ok', 
+            'message' => 'Database connected successfully',
+            'user_count' => $userCount
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'error', 
+            'message' => 'Database connection failed: ' . $e->getMessage()
+        ]);
+    }
 });
 
 // Route d'accueil
