@@ -26,7 +26,7 @@ export default defineConfig({
         },
     },
     build: {
-        manifest: true,
+        manifest: "manifest.json", // Laravel expects manifest.json in build root
         outDir: "public/build",
         rollupOptions: {
             output: {
