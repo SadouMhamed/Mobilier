@@ -39,8 +39,12 @@ RUN composer install --optimize-autoloader --no-dev
 RUN npm install
 RUN npm run build
 
-# Create .env file from example (needed for artisan commands)
-RUN cp .env.example .env
+# Create basic .env file for artisan commands
+RUN echo "APP_NAME=Laravel" > .env && \
+    echo "APP_ENV=production" >> .env && \
+    echo "APP_KEY=" >> .env && \
+    echo "APP_DEBUG=false" >> .env && \
+    echo "APP_URL=http://localhost" >> .env
 
 # Generate application key
 RUN php artisan key:generate
