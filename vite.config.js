@@ -43,4 +43,8 @@ export default defineConfig({
             },
         },
     },
+    define: {
+        // Ensure HTTPS is used in production
+        __VUE_PROD_DEVTOOLS__: false,
+    },
 });

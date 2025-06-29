@@ -14,6 +14,11 @@ use App\Http\Controllers\InvoiceController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
+// Test route to check if basic routing works
+Route::get('/test', function () {
+    return response()->json(['status' => 'ok', 'message' => 'Basic routing works']);
+});
+
 // Route d'accueil
 Route::get('/', function () {
     return view('welcome');
