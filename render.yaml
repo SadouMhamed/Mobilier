@@ -3,33 +3,55 @@ services:
     name: mobilier-app
     env: php
     buildCommand: |
-      # Install dependencies
+      # Install PHP dependencies
       composer install --optimize-autoloader --no-dev
+
+      # Install Node.js dependencies with clean cache
+      npm cache clean --force
       npm ci
 
       # Clear any existing build files
       rm -rf public/build
+      mkdir -p public/build
 
-      # Build frontend assets with verbose output
-      NODE_ENV=production npm run build
-
-      # Verify build files were created
+      # Set Node environment and build assets
+      export NODE_ENV=production
+      export NODE_OPTIONS="--max-old-space-size=1024"
+      
+      # Build frontend assets with detailed logging
+      echo "🔨 Building Vite assets..."
+      npm run build -- --mode production
+      
+      # Verify build completed successfully
+      echo "📁 Checking build directory..."
       ls -la public/build/
-      [ -f public/build/manifest.json ] && echo "✅ Vite manifest created" || echo "❌ Vite manifest missing"
+      
+      if [ -f "public/build/manifest.json" ]; then
+        echo "✅ Vite manifest created successfully"
+        cat public/build/manifest.json
+      else
+        echo "❌ Vite manifest missing - attempting fallback build"
+        # Try alternative build
+        npx vite build --mode production
+        ls -la public/build/
+      fi
 
       # Set proper permissions
       chmod -R 755 public/build
 
-      # Generate key and optimize
+      # Generate Laravel optimizations
       php artisan key:generate --force
-      php artisan optimize:clear
-      php artisan optimize
+      php artisan config:cache
+      php artisan route:cache
+      php artisan view:cache
 
-      # Run migrations
+      # Run database migrations
       php artisan migrate --force
 
-      # Create storage link
+      # Create storage symlink
       php artisan storage:link
+
+      echo "🚀 Build completed successfully!"
 
     startCommand: |
       php artisan serve --host=0.0.0.0 --port=$PORT

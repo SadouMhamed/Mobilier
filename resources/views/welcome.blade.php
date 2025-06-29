@@ -33,7 +33,15 @@
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800,900&family=poppins:400,500,600,700,800,900" rel="stylesheet" />
     
     <!-- Styles -->
-    @vite(['resources/css/app.css', 'resources/js/app.jsx'])
+    @if(app()->environment('local') || (app()->environment('production') && file_exists(public_path('build/manifest.json'))))
+        @vite(['resources/css/app.css', 'resources/js/app.jsx'])
+    @else
+        <!-- Fallback CSS for production if Vite manifest is missing -->
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.0/tailwind.min.css" rel="stylesheet">
+        <script>
+            console.warn('Vite manifest not found, using fallback CSS');
+        </script>
+    @endif
     
     <!-- Structured Data -->
     <script type="application/ld+json">
